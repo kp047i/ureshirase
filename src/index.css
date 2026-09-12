@@ -1,0 +1,73 @@
+@import "tailwindcss";
+
+@theme {
+  --font-head: "Zen Maru Gothic", "Hiragino Maru Gothic ProN", "Hiragino Sans", sans-serif;
+  --font-body: "Noto Sans JP", "Hiragino Sans", "Yu Gothic", "Meiryo", sans-serif;
+  --color-ink: #2B2822;
+  --color-muted: #7A7468;
+  --color-line: #E6E3DC;
+  --color-line-2: #F1EFEA;
+  --color-accent: #8FBC3F;
+  --color-accent-ink: #4F7A12;
+  --color-accent-bg: #F3F8E8;
+  --color-warn: #D0342C;
+  --color-paper: #FAF9F6;
+  --color-st-eth: #A97E4F;
+  --color-st-rest: #D9C08A;
+  --color-st-ready: #8FBC3F;
+  --color-st-process: #E3A82B;
+  --color-st-expired: #D0342C;
+}
+
+:root {
+  --v-hayward: #8FBC3F; --v-gold: #E3A82B; --v-benihi: #D77A8C;
+  --lane-h: 50px; --label-w: 210px; --day-w: 60px;
+}
+html, body { margin: 0; background: #fff; color: var(--color-ink); }
+body { font-family: var(--font-body); font-size: 14px; line-height: 1.5; font-variant-numeric: tabular-nums; }
+
+/* タイムラインは絶対配置が多いので素の CSS で持つ */
+.tl { min-width: calc(var(--label-w) + 18 * var(--day-w)); position: relative; }
+.row { display: flex; height: var(--lane-h); border-top: 1px solid var(--color-line-2); }
+.row.head { height: 40px; border-top: 0; position: sticky; top: 0; z-index: 3; background: #fff; border-bottom: 1px solid var(--color-line); }
+.row.group, .row.footnote { height: 28px; background: var(--color-paper); }
+.row.group .label { font-size: 12px; font-weight: 700; background: var(--color-paper); }
+.row.group .track, .row.footnote .track, .row.footnote .label { font-size: 11px; color: var(--color-muted); display: flex; align-items: center; padding-left: 10px; }
+.row.footnote .label { background: var(--color-paper); }
+.label { flex: 0 0 var(--label-w); width: var(--label-w); position: sticky; left: 0; z-index: 2; background: #fff; border-right: 1px solid var(--color-line); padding: 6px 10px; display: flex; flex-direction: column; justify-content: center; gap: 1px; }
+.row.head .label { justify-content: flex-end; font-size: 11px; color: var(--color-muted); }
+.label .l1 { display: flex; align-items: center; gap: 6px; font-weight: 700; font-size: 13px; white-space: nowrap; }
+.chip { width: 9px; height: 9px; border-radius: 50%; flex: 0 0 9px; display: inline-block; }
+.label .lot { color: var(--color-muted); font-weight: 400; font-size: 11px; margin-left: auto; }
+.label .l2 { font-size: 11px; color: var(--color-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.track { flex: 1; position: relative; display: flex; }
+.cell { flex: 1; border-left: 1px solid var(--color-line-2); }
+.cell.today { background: var(--color-accent-bg); }
+.row.head .cell { display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 11px; line-height: 1.2; color: var(--color-muted); }
+.row.head .cell b { font-size: 12px; color: var(--color-ink); font-weight: 500; }
+.row.head .cell.today b { color: var(--color-accent-ink); font-weight: 700; }
+.nowline { position: absolute; top: 40px; bottom: 0; width: 1px; background: var(--color-accent-ink); z-index: 1; pointer-events: none; }
+.bars { position: absolute; inset: 0; }
+.seg { position: absolute; top: calc(50% - 8px); height: 16px; }
+.seg.eth { background: var(--color-st-eth); }
+.seg.rest { background: var(--color-st-rest); }
+.seg.ready { background: var(--color-st-ready); }
+.seg.process { background: var(--color-st-process); }
+.seg.expired { background: var(--color-st-expired); }
+.seg.first { border-radius: 4px 0 0 4px; }
+.seg.last { border-radius: 0 4px 4px 0; }
+.seg.ghost { opacity: .45; }
+.note { position: absolute; font-size: 10px; color: var(--color-muted); white-space: nowrap; line-height: 1; }
+.note.top { top: 6px; }
+.note.bottom { bottom: 5px; }
+.note.warn { color: var(--color-warn); font-weight: 700; }
+.pack { position: absolute; top: 4px; font-size: 10px; line-height: 12px; color: var(--color-ink); white-space: nowrap; border-left: 3px solid var(--color-ink); padding-left: 4px; background: rgba(255,255,255,.85); z-index: 1; }
+.pack.r { transform: translateX(-100%); border-left: 0; border-right: 3px solid var(--color-ink); padding: 0 4px 0 0; }
+.ship { position: absolute; top: 4px; bottom: 4px; width: 1.5px; background: var(--color-ink); z-index: 1; }
+.ship.warn { background: var(--color-warn); }
+.ship.process { background: var(--color-st-process); width: 2.5px; }
+
+@media (max-width: 720px) {
+  :root { --label-w: 160px; --day-w: 46px; --lane-h: 58px; }
+  .label .l1 { font-size: 12px; }
+}
