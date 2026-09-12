@@ -5,7 +5,7 @@ import type { Actions } from '../domain/store'
 import { NOW, T, TODAY, hm, hoursLabel, md, sameDay } from '../domain/time'
 import type { State } from '../domain/types'
 
-interface Action { label: string; ghost?: boolean; fn: () => void }
+interface Action { label: string; ghost?: boolean; wide?: boolean; fn: () => void }
 interface Item { key: string; kind: string; what: string; cond?: ReactNode[]; why: ReactNode; actions: Action[] }
 
 const B = ({ children }: { children: ReactNode }) => <b className="text-ink font-medium">{children}</b>
@@ -53,7 +53,7 @@ function buildTodos(state: State, a: Actions): Item[] {
         key: `exp-${lot.id}`, kind: '生食期限切れ → 加工へ', what: name,
         why: <>{lot.place}。<B>{md(d.readyEnd)}</B> に生食期限を過ぎた。加工期限 <B>{md(d.processEnd)}</B> まで<Warn>あと{d.processDaysLeft}日</Warn>。注文なし {qtyText(spare, lot.unit)}</>,
         actions: [
-          ...candidates.map((o) => ({ label: `${o.client} ${qtyText(o.qty, o.unit)} に充てる`, fn: () => a.assignToOrder(lot, o) })),
+          ...candidates.map((o) => ({ label: `${o.client} ${qtyText(o.qty, o.unit)} に充てる`, wide: true, fn: () => a.assignToOrder(lot, o) })),
           { label: '加工に回した', ghost: true, fn: () => a.dispose(lot, 'process', spare) },
           { label: '廃棄した', ghost: true, fn: () => a.dispose(lot, 'waste', spare) },
         ],
@@ -106,7 +106,7 @@ export function TodoList({ state, actions }: { state: State; actions: Actions })
           <div className="text-muted text-[13px] flex-1">{it.why}</div>
           <div className="flex flex-wrap gap-2 mt-1.5">
             {it.actions.map((ac) => (
-              <button key={ac.label} onClick={ac.fn} className={`flex-1 min-h-12 rounded-lg border border-accent font-bold text-sm leading-tight px-2 py-1.5 active:translate-y-px ${ac.ghost ? 'bg-white' : 'bg-accent'}`}>
+              <button key={ac.label} onClick={ac.fn} className={`flex-1 min-h-12 rounded-lg border border-accent font-bold text-sm leading-tight px-2 py-1.5 active:translate-y-px ${ac.ghost ? 'bg-white' : 'bg-accent'} ${ac.wide ? 'basis-full' : ''}`}>
                 {ac.label}
               </button>
             ))}
