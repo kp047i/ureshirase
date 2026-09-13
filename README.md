@@ -3,7 +3,6 @@
 おおくまハッカソン 2026(株式会社 ReFruits のキウイ在庫・受注管理)向けの、動くモック。
 並走する追熟ロットと注文を1本のタイムラインに載せ、今日やることを逆算して出す。
 
-設計の経緯と決定理由は my-work の `projects/ookuma-hackathon/deliverables/final-design.md`。
 
 ## 動かす
 
